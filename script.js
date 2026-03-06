@@ -1,21 +1,325 @@
-// Mobile Navigation Toggle
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
+/* ========================================
+   RETRO PIXEL ART PORTFOLIO - SCRIPT.JS
+   ======================================== */
 
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
+// ========================================
+// START SCREEN FUNCTIONALITY
+// ========================================
+const startScreen = document.getElementById('start-screen');
+const gameInterface = document.getElementById('game-interface');
+const startPrompt = document.querySelector('.start-prompt');
+
+// Sound effect using Web Audio API (optional, creates a retro beep)
+function playStartSound() {
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Create oscillator for retro sound
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        // Retro game startup sound
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(554, audioContext.currentTime + 0.1);
+        oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.2);
+        
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.4);
+    } catch (e) {
+        // Audio not supported, continue silently
+    }
+}
+
+// Start game function
+function startGame() {
+    playStartSound();
+    startScreen.classList.add('hidden');
+    gameInterface.classList.remove('hidden');
+}
+
+// Click to start
+startPrompt.addEventListener('click', startGame);
+
+// Also start on any key press
+document.addEventListener('keydown', (e) => {
+    if (!startScreen.classList.contains('hidden')) {
+        startGame();
+    }
 });
 
-// Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
-    hamburger.classList.remove('active');
-    navMenu.classList.remove('active');
-}));
+// Also start on spacebar specifically
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' && !startScreen.classList.contains('hidden')) {
+        e.preventDefault();
+        startGame();
+    }
+});
 
-// Smooth scrolling for navigation links
+// ========================================
+// GAME MENU NAVIGATION
+// ========================================
+const menuItems = document.querySelectorAll('.menu-item');
+const gameSections = document.querySelectorAll('.game-section');
+
+// Menu item click handler
+menuItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const targetSection = item.getAttribute('data-section');
+        
+        // Play menu select sound
+        playMenuSelectSound();
+        
+        // Update active menu item
+        menuItems.forEach(menuItem => menuItem.classList.remove('active'));
+        item.classList.add('active');
+        
+        // Show corresponding section
+        gameSections.forEach(section => {
+            section.classList.remove('active');
+            if (section.id === targetSection) {
+                section.classList.add('active');
+            }
+        });
+    });
+    
+    // Keyboard navigation
+    item.addEventListener('mouseenter', () => {
+        playMenuHoverSound();
+    });
+});
+
+// Menu navigation sound
+function playMenuHoverSound() {
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+        
+        gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.05);
+    } catch (e) {
+        // Continue silently
+    }
+}
+
+function playMenuSelectSound() {
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.05);
+        
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.15);
+    } catch (e) {
+        // Continue silently
+    }
+}
+
+// ========================================
+// KEYBOARD NAVIGATION IN MENU
+// ========================================
+let currentMenuIndex = 0;
+
+document.addEventListener('keydown', (e) => {
+    if (startScreen.classList.contains('hidden')) {
+        const visibleMenuItems = Array.from(menuItems).filter(item => 
+            item.closest('.game-menu')
+        );
+        
+        if (e.key === 'ArrowDown' || e.key === 's') {
+            e.preventDefault();
+            currentMenuIndex = Math.min(currentMenuIndex + 1, visibleMenuItems.length - 1);
+            updateMenuSelection(visibleMenuItems);
+        } else if (e.key === 'ArrowUp' || e.key === 'w') {
+            e.preventDefault();
+            currentMenuIndex = Math.max(currentMenuIndex - 1, 0);
+            updateMenuSelection(visibleMenuItems);
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            visibleMenuItems[currentMenuIndex].click();
+        }
+    }
+});
+
+function updateMenuSelection(items) {
+    items.forEach((item, index) => {
+        if (index === currentMenuIndex) {
+            item.classList.add('active');
+            item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+            item.classList.remove('active');
+        }
+    });
+}
+
+// ========================================
+// EASTER EGG - KONAMI CODE
+// ========================================
+const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight'];
+let konamiIndex = 0;
+const easterEgg = document.getElementById('easter-egg');
+
+document.addEventListener('keydown', (e) => {
+    // Check for Konami code
+    if (e.key === konamiCode[konamiIndex]) {
+        konamiIndex++;
+        
+        if (konamiIndex === konamiCode.length) {
+            // Konami code entered!
+            showEasterEgg();
+            konamiIndex = 0;
+        }
+    } else {
+        konamiIndex = 0;
+    }
+    
+    // Alternative: Press 'K' to toggle easter egg (for accessibility/testing)
+    if (e.key === 'k' || e.key === 'K') {
+        showEasterEgg();
+    }
+});
+
+function showEasterEgg() {
+    playEasterEggSound();
+    easterEgg.classList.remove('hidden');
+    
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+        easterEgg.classList.add('hidden');
+    }, 5000);
+}
+
+function playEasterEggSound() {
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Victory fanfare
+        const notes = [523, 659, 784, 1047];
+        
+        notes.forEach((freq, i) => {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(freq, audioContext.currentTime + i * 0.15);
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime + i * 0.15);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + i * 0.15 + 0.3);
+            
+            oscillator.start(audioContext.currentTime + i * 0.15);
+            oscillator.stop(audioContext.currentTime + i * 0.15 + 0.3);
+        });
+    } catch (e) {
+        // Continue silently
+    }
+}
+
+// Close easter egg on click
+easterEgg.addEventListener('click', () => {
+    easterEgg.classList.add('hidden');
+});
+
+// ========================================
+// QUEST CARD HOVER EFFECTS
+// ========================================
+const questCards = document.querySelectorAll('.quest-card');
+
+questCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        playCardHoverSound();
+    });
+});
+
+function playCardHoverSound() {
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
+        
+        gainNode.gain.setValueAtTime(0.03, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.03);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.03);
+    } catch (e) {
+        // Continue silently
+    }
+}
+
+// ========================================
+// BUTTON CLICK EFFECTS
+// ========================================
+const buttons = document.querySelectorAll('button, .quest-btn, .social-btn, .submit-btn');
+
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        playButtonClickSound();
+    });
+});
+
+function playButtonClickSound() {
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.1);
+        
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.1);
+    } catch (e) {
+        // Continue silently
+    }
+}
+
+// ========================================
+// SMOOTH SCROLLING
+// ========================================
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+    anchor.addEventListener('click', function(e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
@@ -27,17 +331,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar background change on scroll
-window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(10, 10, 10, 0.98)';
-    } else {
-        navbar.style.background = 'rgba(10, 10, 10, 0.95)';
-    }
-});
-
-// Intersection Observer for animations
+// ========================================
+// SCROLL ANIMATIONS
+// ========================================
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -52,323 +348,169 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe all sections for animation
-document.querySelectorAll('section').forEach(section => {
+// Apply animations to sections
+document.querySelectorAll('.game-section').forEach(section => {
     section.style.opacity = '0';
     section.style.transform = 'translateY(30px)';
     section.style.transition = 'all 0.6s ease-out';
     observer.observe(section);
 });
 
-// Form submission handling
+// ========================================
+// FORM SUBMISSION HANDLING
+// ========================================
 const contactForm = document.querySelector('.contact-form');
+
 if (contactForm) {
-    contactForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        // Get form data
-        const formData = new FormData(this);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const subject = formData.get('subject');
-        const message = formData.get('message');
-
-        // Simple validation
-        if (!name || !email || !subject || !message) {
-            showNotification('Please fill in all fields', 'error');
-            return;
-        }
-
-        if (!isValidEmail(email)) {
-            showNotification('Please enter a valid email address', 'error');
-            return;
-        }
-
-        // Send form data using FormSubmit
-        const formDataObj = new FormData(this);
-
-        // Show loading state
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerText;
-        submitBtn.innerText = 'Sending...';
-        submitBtn.disabled = true;
-
-        fetch("https://formsubmit.co/ajax/dhevprashath25@gmail.com", {
-            method: "POST",
-            body: formDataObj
-        })
-            .then(response => response.json())
-            .then(data => {
-                showNotification('Message sent successfully!', 'success');
-                this.reset();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showNotification('Failed to send message. Please try again.', 'error');
-            })
-            .finally(() => {
-                submitBtn.innerText = originalText;
-                submitBtn.disabled = false;
-            });
+    contactForm.addEventListener('submit', function(e) {
+        // FormSubmit will handle the submission
+        playButtonClickSound();
     });
 }
 
-// Email validation function
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
+// ========================================
+// TERMINAL TYPEWRITER EFFECT
+// ========================================
+const terminalTexts = document.querySelectorAll('.terminal-text');
+let typingIndex = 0;
 
-// Notification system
-function showNotification(message, type = 'info') {
-    // Remove existing notifications
-    const existingNotifications = document.querySelectorAll('.notification');
-    existingNotifications.forEach(notification => notification.remove());
-
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
-        <div class="notification-content">
-            <span class="notification-message">${message}</span>
-            <button class="notification-close">&times;</button>
-        </div>
-    `;
-
-    // Add styles
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? '#00d4ff' : type === 'error' ? '#ff4757' : '#3742fa'};
-        color: white;
-        padding: 15px 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        z-index: 10000;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        max-width: 300px;
-    `;
-
-    // Add to page
-    document.body.appendChild(notification);
-
-    // Animate in
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        removeNotification(notification);
-    }, 5000);
-
-    // Close button functionality
-    const closeBtn = notification.querySelector('.notification-close');
-    closeBtn.addEventListener('click', () => {
-        removeNotification(notification);
-    });
-}
-
-function removeNotification(notification) {
-    notification.style.transform = 'translateX(100%)';
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.parentNode.removeChild(notification);
-        }
-    }, 300);
-}
-
-// Typing effect for hero title
-// Typing effect removed
-function typeWriter(element, text, speed = 100) {
-    // Logic removed to prevent HTML rendering issues
-}
-
-// Initialize typing effect when page loads
-// Initialize typing effect when page loads - DISABLED
-window.addEventListener('load', () => {
-    // Typing effect disabled
-});
-
-// Parallax effect for hero section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+function typeWriter() {
+    if (typingIndex < terminalTexts.length) {
+        const text = terminalTexts[typingIndex].textContent;
+        terminalTexts[typingIndex].textContent = '';
+        
+        let charIndex = 0;
+        const typeInterval = setInterval(() => {
+            if (charIndex < text.length) {
+                terminalTexts[typingIndex].textContent += text[charIndex];
+                charIndex++;
+            } else {
+                clearInterval(typeInterval);
+                typingIndex++;
+                setTimeout(typeWriter, 500);
+            }
+        }, 50);
     }
-});
-
-// Skill bars animation
-function animateSkillBars() {
-    const skillItems = document.querySelectorAll('.skill-item');
-    skillItems.forEach((item, index) => {
-        setTimeout(() => {
-            item.style.opacity = '1';
-            item.style.transform = 'translateX(0)';
-        }, index * 100);
-    });
 }
 
-// Trigger skill animation when skills section is visible
-const skillsSection = document.querySelector('.skills');
-if (skillsSection) {
-    const skillsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateSkillBars();
-                skillsObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
+// Start typing effect after game starts
+document.addEventListener('click', function startTypingOnce() {
+    if (startScreen.classList.contains('hidden')) {
+        typeWriter();
+        document.removeEventListener('click', startTypingOnce);
+    }
+}, { once: true });
 
-    skillsObserver.observe(skillsSection);
-}
-
-// Project card hover effects
-document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('mouseenter', function () {
-        this.style.transform = 'translateY(-10px) scale(1.02)';
-    });
-
-    card.addEventListener('mouseleave', function () {
-        this.style.transform = 'translateY(0) scale(1)';
-    });
-});
-
-// Smooth reveal animation for stats
-function animateStats() {
-    // Logic removed to prevent NaN error with text-based stats
-}
-
-// Trigger stats animation when about section is visible
-const aboutSection = document.querySelector('.about');
-if (aboutSection) {
-    const aboutObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // animateStats();
-                aboutObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.7 });
-
-    aboutObserver.observe(aboutSection);
-}
-
-// Add loading animation
-window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
-
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
-});
-
-// Add cursor trail effect
+// ========================================
+// CURSOR EFFECT (Retro trailing cursor)
+// ========================================
 document.addEventListener('mousemove', (e) => {
-    const cursor = document.querySelector('.cursor-trail') || createCursorTrail();
-    cursor.style.left = e.pageX + 'px';
-    cursor.style.top = e.pageY + 'px';
+    createCursorTrail(e);
 });
 
-function createCursorTrail() {
-    const cursor = document.createElement('div');
-    cursor.className = 'cursor-trail';
-    cursor.style.cssText = `
+function createCursorTrail(e) {
+    const trail = document.createElement('div');
+    trail.className = 'cursor-trail';
+    trail.style.cssText = `
         position: fixed;
-        width: 20px;
-        height: 20px;
-        background: radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, transparent 70%);
-        border-radius: 50%;
+        width: 8px;
+        height: 8px;
+        background: #00ff41;
         pointer-events: none;
-        z-index: 9999;
-        transition: all 0.1s ease;
+        z-index: 9997;
+        opacity: 0.6;
     `;
-    document.body.appendChild(cursor);
-    return cursor;
+    trail.style.left = e.pageX + 'px';
+    trail.style.top = e.pageY + 'px';
+    document.body.appendChild(trail);
+    
+    setTimeout(() => {
+        trail.remove();
+    }, 100);
 }
 
-// Add particle background effect
-function createParticles() {
-    const particlesContainer = document.createElement('div');
-    particlesContainer.className = 'particles';
-    particlesContainer.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: -1;
-        overflow: hidden;
-    `;
-
-    for (let i = 0; i < 50; i++) {
-        const particle = document.createElement('div');
-        particle.style.cssText = `
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(0, 212, 255, 0.5);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-            animation-delay: ${Math.random() * 6}s;
-        `;
-
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.top = Math.random() * 100 + '%';
-
-        particlesContainer.appendChild(particle);
-    }
-
-    document.body.appendChild(particlesContainer);
-}
-
-// Add floating animation for particles
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes float {
-        0%, 100% {
-            transform: translateY(0px) rotate(0deg);
-            opacity: 0.5;
-        }
-        50% {
-            transform: translateY(-20px) rotate(180deg);
-            opacity: 1;
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// Initialize particles
-createParticles();
-
-// Add scroll progress indicator
-function createScrollProgress() {
-    const progressBar = document.createElement('div');
-    progressBar.className = 'scroll-progress';
-    progressBar.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 0%;
-        height: 3px;
-        background: linear-gradient(90deg, #00d4ff, #0099ff);
-        z-index: 10001;
-        transition: width 0.1s ease;
-    `;
-
-    document.body.appendChild(progressBar);
-
-    window.addEventListener('scroll', () => {
-        const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-        progressBar.style.width = scrolled + '%';
+// ========================================
+// PARALLAX EFFECT (Subtle)
+// ========================================
+document.addEventListener('mousemove', (e) => {
+    const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+    const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+    
+    document.querySelectorAll('.game-section.active').forEach(section => {
+        section.style.transform = `translate(${moveX}px, ${moveY}px)`;
     });
+});
+
+// ========================================
+// SKILL ITEMS ANIMATION
+// ========================================
+const skillItems = document.querySelectorAll('.skill-item');
+
+skillItems.forEach((item, index) => {
+    item.style.opacity = '0';
+    item.style.transform = 'translateX(-20px)';
+    
+    setTimeout(() => {
+        item.style.transition = 'all 0.3s ease';
+        item.style.opacity = '1';
+        item.style.transform = 'translateX(0)';
+    }, index * 100);
+});
+
+// ========================================
+// QUEST CARDS STAGGERED ANIMATION
+// ========================================
+questCards.forEach((card, index) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    
+    setTimeout(() => {
+        card.style.transition = 'all 0.4s ease';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+    }, index * 150);
+});
+
+// ========================================
+// PREVENT SCROLL ON START SCREEN
+// ========================================
+startScreen.addEventListener('wheel', (e) => {
+    if (!startScreen.classList.contains('hidden')) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+// ========================================
+// ADD KEYBOARD SHORTCUTS INFO
+// ========================================
+console.log('%c🎮 RETRO PORTFOLIO', 'font-size: 20px; color: #00ff41;');
+console.log('%cKeyboard Shortcuts:', 'font-size: 14px; color: #00d4ff;');
+console.log('- Arrow Keys / WASD: Navigate menu');
+console.log('- Enter: Select menu item');
+console.log('- Space: Start game');
+console.log('- K: Secret easter egg');
+console.log('%c🔐 Easter Egg: ↑ ↑ ↓ ↓ ← → ← →', 'font-size: 12px; color: #ff00ff;');
+
+// ========================================
+// MOBILE TOUCH SUPPORT
+// ========================================
+// Add touch support for mobile
+if ('ontouchstart' in window) {
+    document.body.classList.add('touch-device');
 }
 
-// Initialize scroll progress
-createScrollProgress();
+// ========================================
+// PERFORMANCE OPTIMIZATION
+// ========================================
+// Throttle scroll events
+let ticking = false;
+
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            // Scroll-based animations here
+            ticking = false;
+        });
+        ticking = true;
+    }
+});
