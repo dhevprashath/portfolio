@@ -1,0 +1,71 @@
+/* Micro Animations & Hover Effects */
+
+/* Hover Tilt Effect handled by CSS + JS */
+.hover-tilt {
+    transition: transform 0.1s ease-out;
+}
+
+/* Button Glow */
+.btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    transition: width 0.4s ease-out, height 0.4s ease-out;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.btn:hover .btn-glow {
+    width: 200%;
+    padding-top: 200%;
+}
+
+.btn-text {
+    position: relative;
+    z-index: 1;
+}
+
+/* Card Glow Effect on Hover */
+.card-glow, .project-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(0, 240, 255, 0.06), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.glass-card:hover .card-glow,
+.project-card:hover .project-glow {
+    opacity: 1;
+}
+
+/* 3D CSS Perspectives */
+.transform-3d {
+    perspective: 1000px;
+}
+
+/* Reveal Animations setup for GSAP */
+.reveal-text, .reveal-fade, .reveal-image {
+    visibility: hidden;
+}
+
+/* Floating Animation */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.floating {
+    animation: float 6s ease-in-out infinite;
+}

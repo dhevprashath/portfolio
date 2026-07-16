@@ -1,405 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhev Prashath - Retro Portfolio</title>
+    <title>DHEV PRASHATH | AI & Backend Developer</title>
+    <meta name="description" content="Cinematic portfolio of Dhev Prashath, AI & ML Student and Backend Developer.">
+    
+    <!-- SEO Meta Tags -->
+    <meta property="og:title" content="DHEV PRASHATH | AI & Backend Developer">
+    <meta property="og:description" content="Cinematic portfolio of Dhev Prashath, AI & ML Student and Backend Developer.">
+    <meta property="og:type" content="website">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
-
 <body>
-    <!-- CRT Screen Overlay Effect -->
-    <div class="crt-overlay"></div>
-    <div class="scanlines"></div>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-follower"></div>
 
-    <!-- Start Screen -->
-    <div id="start-screen" class="start-screen">
-        <div class="tv-container">
-            <div class="tv-frame">
-                <div class="tv-screen">
-                    <div class="game-title">
-                        <div class="pixel-text" data-text="DHEV">DHEV</div>
-                        <div class="pixel-text" data-text="PRASHATH">PRASHATH</div>
-                    </div>
-                    <div class="start-prompt">
-                        <span class="blink">PRESS START</span>
-                    </div>
-                    <div class="credit-text">
-                        <p>AIML STUDENT | FULL STACK DEV</p>
-                        <p>LVL 21 | HP: 100%</p>
-                    </div>
-                </div>
-            </div>
-            <div class="tv-stand"></div>
-            <div class="tv-controls">
-                <div class="control-knob"></div>
-                <div class="control-knob"></div>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-content">
+            <div class="logo-animation">DP.</div>
+            <div class="loading-percentage">0%</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
             </div>
         </div>
     </div>
 
-    <!-- Main Game Interface -->
-    <div id="game-interface" class="game-interface hidden">
-        <!-- Game Menu / Navigation -->
-        <nav class="game-menu">
-            <div class="menu-header">
-                <span class="player-name">PLAYER: DHEV PRASHATH</span>
-                <span class="player-level">LVL: 21</span>
-            </div>
-            <ul class="menu-options">
-                <li class="menu-item active" data-section="about">
-                    <span class="menu-icon">▶</span>
-                    <span>START GAME</span>
-                </li>
-                <li class="menu-item" data-section="skills">
-                    <span class="menu-icon">♦</span>
-                    <span>SKILLS</span>
-                </li>
-                <li class="menu-item" data-section="projects">
-                    <span class="menu-icon">★</span>
-                    <span>PROJECTS</span>
-                </li>
-                <li class="menu-item" data-section="experience">
-                    <span class="menu-icon">♠</span>
-                    <span>EXPERIENCE</span>
-                </li>
-                <li class="menu-item" data-section="contact">
-                    <span class="menu-icon">♣</span>
-                    <span>CONTACT</span>
-                </li>
-            </ul>
-            <div class="menu-footer">
-                <span>HP: ████████████ 100%</span>
-                <span>EXP: ████████░░ 80%</span>
-            </div>
-        </nav>
+    <!-- 3D Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
 
-        <!-- Game Content Area -->
-        <main class="game-content">
-            <!-- About Section -->
-            <section id="about" class="game-section active">
-                <div class="section-header">
-                    <h2 class="pixel-title">► ABOUT ME</h2>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#hero" class="nav-logo hover-target">DP.</a>
+        <div class="nav-links">
+            <a href="#about" class="hover-target">About</a>
+            <a href="#experience" class="hover-target">Experience</a>
+            <a href="#projects" class="hover-target">Projects</a>
+            <a href="#skills" class="hover-target">Skills</a>
+            <a href="#contact" class="hover-target">Contact</a>
+        </div>
+        <div class="nav-toggle hover-target">
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main data-scroll-container>
+        <!-- Hero Section -->
+        <section id="hero" class="hero section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="hero-greeting">Hi, I'm</span>
+                    <span class="hero-name">DHEV PRASHATH</span>
+                </h1>
+                <div class="hero-subtitle">
+                    <span id="typewriter"></span><span class="cursor-blink">|</span>
                 </div>
-                <div class="about-content">
-                    <div class="character-display">
-                        <div class="pixel-avatar">
-                            <div class="avatar-frame">
-                                <div class="avatar-pixel p1"></div>
-                                <div class="avatar-pixel p2"></div>
-                                <div class="avatar-pixel p3"></div>
-                                <div class="avatar-pixel p4"></div>
-                                <div class="avatar-pixel p5"></div>
-                                <div class="avatar-pixel p6"></div>
-                                <div class="avatar-pixel p7"></div>
-                                <div class="avatar-pixel p8"></div>
-                            </div>
-                        </div>
-                        <div class="character-stats">
-                            <div class="stat-row">
-                                <span class="stat-label">CLASS:</span>
-                                <span class="stat-value">Full Stack Developer</span>
-                            </div>
-                            <div class="stat-row">
-                                <span class="stat-label">RACE:</span>
-                                <span class="stat-value">AIML Student</span>
-                            </div>
-                            <div class="stat-row">
-                                <span class="stat-label">FROM:</span>
-                                <span class="stat-value">Coimbatore, TN</span>
-                            </div>
+                <div class="hero-actions">
+                    <a href="#" class="btn btn-primary hover-target">
+                        <span class="btn-text">Download Resume</span>
+                        <div class="btn-glow"></div>
+                    </a>
+                    <a href="#projects" class="btn btn-secondary hover-target">
+                        <span class="btn-text">View Projects</span>
+                    </a>
+                </div>
+                <div class="social-icons">
+                    <a href="#" class="hover-target"><i class="fab fa-github"></i></a>
+                    <a href="#" class="hover-target"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="hover-target"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <div class="mouse"></div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about section">
+            <div class="container">
+                <h2 class="section-title reveal-text">About Me</h2>
+                <div class="about-grid">
+                    <div class="about-image-wrapper reveal-fade">
+                        <div class="about-image">
+                            <!-- Profile picture referenced here -->
+                            <img src="assets/images/profile.jpg" alt="Dhev Prashath">
+                            <div class="image-glow"></div>
                         </div>
                     </div>
                     <div class="about-text">
-                        <p>I am a B.Tech student in Artificial Intelligence & Machine Learning at SNS College of Technology (CGPA: 8.3). My mission is to build real-world AI solutions and grow through impactful project development.</p>
-                        <p>I specialize in Full Stack Development and AI/ML, with expertise in Python, Java, React, and Flutter. Passionate about creating innovative solutions that make a difference.</p>
-                        <div class="achievements">
-                            <h3>ACHIEVEMENTS:</h3>
-                            <ul>
-                                <li>🏆 Champion - Volleyball (Div-Level)</li>
-                                <li>👥 Organizer - Machine Mind Relay</li>
-                                <li>💻 Backend Dev at Dark Codex</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Skills Section -->
-            <section id="skills" class="game-section">
-                <div class="section-header">
-                    <h2 class="pixel-title">♦ SKILLS INVENTORY</h2>
-                </div>
-                <div class="inventory-grid">
-                    <div class="inventory-category">
-                        <h3>⚔️ WEAPONS (Frontend)</h3>
-                        <div class="skill-items">
-                            <div class="skill-item">
-                                <span class="item-icon">⚔️</span>
-                                <span>HTML/CSS</span>
+                        <p class="reveal-fade">
+                            I am an Artificial Intelligence & Machine Learning undergraduate with a passion for building scalable, intelligent software systems. 
+                        </p>
+                        <p class="reveal-fade">
+                            As a Backend Developer, I specialize in Java, JavaScript, and the MERN stack. I thrive on solving complex problems and architecting robust REST APIs that power modern web applications.
+                        </p>
+                        <div class="about-highlights reveal-fade">
+                            <div class="highlight-item">
+                                <i class="fas fa-brain"></i>
+                                <span>AI & ML Enthusiast</span>
                             </div>
-                            <div class="skill-item">
-                                <span class="item-icon">⚔️</span>
-                                <span>JavaScript</span>
+                            <div class="highlight-item">
+                                <i class="fas fa-server"></i>
+                                <span>Backend Architect</span>
                             </div>
-                            <div class="skill-item">
-                                <span class="item-icon">⚔️</span>
-                                <span>React</span>
-                            </div>
-                            <div class="skill-item">
-                                <span class="item-icon">⚔️</span>
-                                <span>Flutter</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="inventory-category">
-                        <h3>🛡️ ARMOR (Backend)</h3>
-                        <div class="skill-items">
-                            <div class="skill-item">
-                                <span class="item-icon">🛡️</span>
-                                <span>Python</span>
-                            </div>
-                            <div class="skill-item">
-                                <span class="item-icon">🛡️</span>
-                                <span>Java</span>
-                            </div>
-                            <div class="skill-item">
-                                <span class="item-icon">🛡️</span>
-                                <span>Node.js</span>
-                            </div>
-                            <div class="skill-item">
-                                <span class="item-icon">🛡️</span>
-                                <span>MongoDB</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="inventory-category">
-                        <h3>🎒 ITEMS (Tools)</h3>
-                        <div class="skill-items">
-                            <div class="skill-item">
-                                <span class="item-icon">🎒</span>
-                                <span>Git & GitHub</span>
-                            </div>
-                            <div class="skill-item">
-                                <span class="item-icon">🎒</span>
-                                <span>VS Code</span>
-                            </div>
-                            <div class="skill-item">
-                                <span class="item-icon">🎒</span>
-                                <span>Docker</span>
+                            <div class="highlight-item">
+                                <i class="fas fa-code"></i>
+                                <span>Problem Solver</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <!-- Projects Section -->
-            <section id="projects" class="game-section">
-                <div class="section-header">
-                    <h2 class="pixel-title">★ QUEST LOG</h2>
-                </div>
-                <div class="quest-grid">
-                    <div class="quest-card" data-github="https://github.com/dhevprashath/AI_virtual_HR">
-                        <div class="quest-level">LVL 10</div>
-                        <h3 class="quest-title">AI Virtual HR</h3>
-                        <p class="quest-desc">AI-powered virtual HR system for automated candidate screening and interview scheduling.</p>
-                        <div class="quest-rewards">
-                            <span>Python</span>
-                            <span>NLP</span>
-                            <span>GenAI</span>
-                        </div>
-                        <a href="https://github.com/dhevprashath/AI_virtual_HR" target="_blank" class="quest-btn">
-                            VIEW QUEST
-                        </a>
-                    </div>
-                    <div class="quest-card" data-github="https://github.com/dhevprashath/Youtube_Gesture_">
-                        <div class="quest-level">LVL 12</div>
-                        <h3 class="quest-title">Gesture Controlled Apps</h3>
-                        <p class="quest-desc">Control YouTube and other apps using hand gestures with computer vision.</p>
-                        <div class="quest-rewards">
-                            <span>Python</span>
-                            <span>OpenCV</span>
-                            <span>AI</span>
-                        </div>
-                        <a href="https://github.com/dhevprashath/Youtube_Gesture_" target="_blank" class="quest-btn">
-                            VIEW QUEST
-                        </a>
-                    </div>
-                    <div class="quest-card" data-github="https://github.com/dhevprashath/Qrcode_generator">
-                        <div class="quest-level">LVL 5</div>
-                        <h3 class="quest-title">QR Code Generator</h3>
-                        <p class="quest-desc">Create custom QR codes with logos, colors, and tracking analytics.</p>
-                        <div class="quest-rewards">
-                            <span>Python</span>
-                            <span>GUI</span>
-                        </div>
-                        <a href="https://github.com/dhevprashath/Qrcode_generator" target="_blank" class="quest-btn">
-                            VIEW QUEST
-                        </a>
-                    </div>
-                    <div class="quest-card" data-github="https://github.com/dhevprashath/LMS-project">
-                        <div class="quest-level">LVL 15</div>
-                        <h3 class="quest-title">LMS Platform</h3>
-                        <p class="quest-desc">Udemy-like platform with authentication, quizzes, and personalized learning paths.</p>
-                        <div class="quest-rewards">
-                            <span>MERN</span>
-                            <span>React</span>
-                            <span>Auth</span>
-                        </div>
-                        <a href="https://github.com/dhevprashath/LMS-project" target="_blank" class="quest-btn">
-                            VIEW QUEST
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Experience Section -->
-            <section id="experience" class="game-section">
-                <div class="section-header">
-                    <h2 class="pixel-title">♠ MISSION LOG</h2>
-                </div>
-                <div class="mission-list">
-                    <div class="mission-card">
-                        <div class="mission-period">2025 - PRESENT</div>
-                        <h3>Python Web Dev Intern</h3>
-                        <p class="mission-company">@ DarkCodex</p>
-                        <p class="mission-desc">Built scalable web applications using Python and modern frameworks.</p>
-                    </div>
-                    <div class="mission-card">
-                        <div class="mission-period">2024 - 2025</div>
-                        <h3>MERN Stack Intern</h3>
-                        <p class="mission-company">@ CodeTechIT Solutions</p>
-                        <p class="mission-desc">Developed full-stack applications with React, Node.js, and MongoDB.</p>
-                    </div>
-                    <div class="mission-card">
-                        <div class="mission-period">2023 - 2024</div>
-                        <h3>Web Dev Intern</h3>
-                        <p class="mission-company">@ Ebix Global Services</p>
-                        <p class="mission-desc">Contributed to enterprise web solutions and UI/UX improvements.</p>
-                    </div>
-                </div>
-                <div class="education-section">
-                    <h3>🎓 EDUCATION</h3>
-                    <div class="edu-card">
-                        <div class="edu-icon">🎓</div>
-                        <div class="edu-info">
-                            <h4>B.Tech - AI & ML</h4>
-                            <p>SNS College of Technology</p>
-                            <span>2023-2027 | CGPA: 8.3</span>
-                        </div>
-                    </div>
-                    <div class="edu-card">
-                        <div class="edu-icon">📚</div>
-                        <div class="edu-info">
-                            <h4>HSC</h4>
-                            <p>Govt. Boys Hr. Sec. School</p>
-                            <span>2022 | 76.67%</span>
-                        </div>
-                    </div>
-                    <div class="edu-card">
-                        <div class="edu-icon">📖</div>
-                        <div class="edu-info">
-                            <h4>SSLC</h4>
-                            <p>Govt. Boys Hr. Sec. School</p>
-                            <span>2020 | Pass</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Contact Section -->
-            <section id="contact" class="game-section">
-                <div class="section-header">
-                    <h2 class="pixel-title">♣ SEND MESSAGE</h2>
-                </div>
-                <div class="contact-container">
-                    <div class="contact-info-panel">
-                        <div class="contact-stat">
-                            <span class="contact-label">EMAIL:</span>
-                            <span class="contact-value">dhevprashath25@gmail.com</span>
-                        </div>
-                        <div class="contact-stat">
-                            <span class="contact-label">PHONE:</span>
-                            <span class="contact-value">+91 8015543346</span>
-                        </div>
-                        <div class="contact-stat">
-                            <span class="contact-label">LOCATION:</span>
-                            <span class="contact-value">Coimbatore, TN</span>
-                        </div>
-                        <div class="social-links">
-                            <a href="https://github.com/dhevprashath" target="_blank" class="social-btn">
-                                <span>GITHUB</span>
-                            </a>
-                            <a href="https://www.linkedin.com/in/dhev-prashath" target="_blank" class="social-btn">
-                                <span>LINKEDIN</span>
-                            </a>
-                        </div>
-                    </div>
-                    <form class="contact-form" action="https://formsubmit.co/dhevprashath25@gmail.com" method="POST">
-                        <input type="hidden" name="_subject" value="Portfolio Contact">
-                        <div class="form-group">
-                            <label>NAME:</label>
-                            <input type="text" name="name" placeholder="Enter your name..." required>
-                        </div>
-                        <div class="form-group">
-                            <label>EMAIL:</label>
-                            <input type="email" name="email" placeholder="Enter your email..." required>
-                        </div>
-                        <div class="form-group">
-                            <label>MESSAGE:</label>
-                            <textarea name="message" placeholder="Type your message..." rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="submit-btn">SEND MESSAGE</button>
-                    </form>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <!-- Easter Egg Message -->
-    <div id="easter-egg" class="easter-egg hidden">
-        <div class="egg-content">
-            <h3>🎮 SECRET UNLOCKED!</h3>
-            <p>You found the Konami Code!</p>
-            <p class="egg-reward">REWARD: +9999 EXP</p>
-            <p class="egg-message">Now go build something amazing! 🚀</p>
-        </div>
-    </div>
-
-    <!-- Retro Footer -->
-    <footer class="retro-footer">
-        <div class="terminal">
-            <div class="terminal-header">
-                <span class="terminal-title">RETRO CONSOLE v1.0</span>
             </div>
-            <div class="terminal-body">
-                <div class="terminal-line">
-                    <span class="prompt">></span>
-                    <span class="terminal-text">PLAYER: DHEV PRASHATH</span>
-                    <span class="cursor">_</span>
+        </section>
+
+        <!-- Education & Leadership Section -->
+        <section id="experience" class="education section">
+            <div class="container">
+                <h2 class="section-title reveal-text">Journey</h2>
+                <div class="timeline-container">
+                    
+                    <div class="timeline-column reveal-fade">
+                        <h3 class="timeline-title">Education</h3>
+                        <div class="timeline-item glass-card hover-tilt">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">2023 – 2027</div>
+                            <h4 class="timeline-role">Artificial Intelligence & ML</h4>
+                            <h5 class="timeline-org">SNS College of Technology</h5>
+                            <p>CGPA: 8.1</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-column reveal-fade">
+                        <h3 class="timeline-title">Leadership</h3>
+                        <div class="timeline-item glass-card hover-tilt">
+                            <div class="timeline-dot"></div>
+                            <h4 class="timeline-role">Joint Treasurer</h4>
+                            <h5 class="timeline-org">Student Organization</h5>
+                        </div>
+                        <div class="timeline-item glass-card hover-tilt">
+                            <div class="timeline-dot"></div>
+                            <h4 class="timeline-role">ARP Candidate</h4>
+                            <h5 class="timeline-org">Academic Excellence</h5>
+                        </div>
+                        <div class="timeline-item glass-card hover-tilt">
+                            <div class="timeline-dot"></div>
+                            <h4 class="timeline-role">Machine Mind Relay Organizer</h4>
+                            <h5 class="timeline-org">Tech Event</h5>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="terminal-line">
-                    <span class="prompt">></span>
-                    <span class="terminal-text">STATUS: BUILDING COOL PROJECTS</span>
-                    <span class="cursor">_</span>
+            </div>
+        </section>
+
+        <!-- Internships Section -->
+        <section id="internships" class="internships section">
+            <div class="container">
+                <h2 class="section-title reveal-text">Internships</h2>
+                <div class="cards-grid">
+                    <div class="glass-card intern-card hover-tilt reveal-fade">
+                        <div class="card-glow"></div>
+                        <div class="intern-icon"><i class="fas fa-database"></i></div>
+                        <h3>Backend Developer</h3>
+                        <h4>DarkCodex</h4>
+                    </div>
+                    <div class="glass-card intern-card hover-tilt reveal-fade" style="transition-delay: 0.1s">
+                        <div class="card-glow"></div>
+                        <div class="intern-icon"><i class="fab fa-react"></i></div>
+                        <h3>MERN Stack</h3>
+                        <h4>CodeTech IT Solutions</h4>
+                    </div>
+                    <div class="glass-card intern-card hover-tilt reveal-fade" style="transition-delay: 0.2s">
+                        <div class="card-glow"></div>
+                        <div class="intern-icon"><i class="fas fa-code"></i></div>
+                        <h3>Web Development</h3>
+                        <h4>Ebix Global</h4>
+                    </div>
                 </div>
-                <div class="terminal-line">
-                    <span class="prompt">></span>
-                    <span class="terminal-text">HP: ████████████ 100%</span>
-                    <span class="cursor">_</span>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="projects section">
+            <div class="container">
+                <h2 class="section-title reveal-text">Featured Projects</h2>
+                <div class="projects-grid">
+                    
+                    <div class="project-card glass-card hover-tilt reveal-fade">
+                        <div class="project-glow"></div>
+                        <div class="project-image">
+                            <div class="placeholder-img"><i class="fas fa-robot"></i></div>
+                        </div>
+                        <div class="project-content">
+                            <h3>Prompt Engineering Application</h3>
+                            <p>An advanced tool to optimize and generate high-quality AI prompts.</p>
+                            <div class="tech-tags">
+                                <span>React</span><span>Node.js</span><span>AI</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="btn-small hover-target">GitHub</a>
+                                <a href="#" class="btn-small btn-primary hover-target">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card glass-card hover-tilt reveal-fade">
+                        <div class="project-glow"></div>
+                        <div class="project-image">
+                            <div class="placeholder-img"><i class="fas fa-users-viewfinder"></i></div>
+                        </div>
+                        <div class="project-content">
+                            <h3>AI Virtual HR Interview Simulator</h3>
+                            <p>An intelligent simulator designed to conduct lifelike HR interviews and provide feedback.</p>
+                            <div class="tech-tags">
+                                <span>Python</span><span>React</span><span>ML</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="btn-small hover-target">GitHub</a>
+                                <a href="#" class="btn-small btn-primary hover-target">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card glass-card hover-tilt reveal-fade">
+                        <div class="project-glow"></div>
+                        <div class="project-image">
+                            <div class="placeholder-img"><i class="fas fa-chalkboard-user"></i></div>
+                        </div>
+                        <div class="project-content">
+                            <h3>Learning Management System</h3>
+                            <p>A scalable platform for course management, student tracking, and resource sharing.</p>
+                            <div class="tech-tags">
+                                <span>MERN</span><span>Express</span><span>MongoDB</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="btn-small hover-target">GitHub</a>
+                                <a href="#" class="btn-small btn-primary hover-target">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="terminal-footer">
-                    <span>© 2024 DHEV PRASHATH | PRESS START TO PLAY</span>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="skills section">
+            <div class="container">
+                <h2 class="section-title reveal-text">My Arsenal</h2>
+                <div class="skills-cloud reveal-fade">
+                    <div class="skill-tag glass-card hover-target"><i class="fab fa-java"></i> Java</div>
+                    <div class="skill-tag glass-card hover-target"><i class="fab fa-js"></i> JavaScript</div>
+                    <div class="skill-tag glass-card hover-target"><i class="fab fa-react"></i> React</div>
+                    <div class="skill-tag glass-card hover-target"><i class="fab fa-node-js"></i> Node.js</div>
+                    <div class="skill-tag glass-card hover-target"><i class="fas fa-leaf"></i> MongoDB</div>
+                    <div class="skill-tag glass-card hover-target"><i class="fas fa-server"></i> Express</div>
+                    <div class="skill-tag glass-card hover-target"><i class="fas fa-database"></i> MySQL</div>
+                    <div class="skill-tag glass-card hover-target"><i class="fab fa-git-alt"></i> Git</div>
+                    <div class="skill-tag glass-card hover-target"><i class="fas fa-network-wired"></i> REST API</div>
+                    <div class="skill-tag glass-card hover-target"><i class="fas fa-cubes"></i> OOP</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact section">
+            <div class="container">
+                <h2 class="section-title reveal-text">Let's Connect</h2>
+                <div class="contact-wrapper">
+                    <div class="contact-info reveal-fade">
+                        <p>Currently open for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Coimbatore, Tamil Nadu</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-form-wrapper glass-card hover-tilt reveal-fade">
+                        <form id="contact-form" class="contact-form">
+                            <div class="input-group">
+                                <input type="text" id="name" required placeholder=" ">
+                                <label for="name">Name</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="email" id="email" required placeholder=" ">
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="input-group">
+                                <textarea id="message" rows="4" required placeholder=" "></textarea>
+                                <label for="message">Message</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary hover-target w-100">
+                                <span class="btn-text">Send Message</span>
+                                <div class="btn-glow"></div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-quote">
+                "Building intelligent software that creates meaningful impact."
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Dhev Prashath. All rights reserved.</p>
+                <div class="footer-socials">
+                    <a href="#" class="hover-target"><i class="fab fa-github"></i></a>
+                    <a href="#" class="hover-target"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="hover-target"><i class="fas fa-envelope"></i></a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/cursor.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/contact.js"></script>
+    <script src="js/main.js"></script>
 </body>
-
 </html>
